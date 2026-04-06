@@ -1,0 +1,302 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Using colors inspired by the business card */
+  --color-bg: #f9fafb; /* Light/white background like the card */
+  --color-bg-alt: #ffffff;
+  --color-text: #1a1a1a; /* Dark text */
+  --color-text-light: #4b5563;
+  --color-primary: #1a1a1a; /* Black from the "A" in the logo */
+  --color-accent: #f26b52; /* Coral/Orange from the "T" and text */
+  --color-accent-light: #ff8a75;
+  --color-border: #e5e7eb;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --overlay-bg: rgba(245, 245, 247, 0.4);
+  --glass-blur: blur(12px);
+
+  --font-main: 'Inter', sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+  
+  --nav-height: 80px;
+}
+
+[data-theme='dark'] {
+  --color-bg: #0f172a;
+  --color-bg-alt: #1e293b;
+  --color-text: #f8fafc;
+  --color-text-light: #cbd5e1;
+  --color-primary: #ffffff;
+  --color-accent: #f26b52;
+  --color-accent-light: #ff8a75;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(15, 23, 42, 0.85);
+  --overlay-bg: rgba(15, 23, 42, 0.6);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, fill 0.4s ease;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  /* Very subtle engineering grid background */
+  background-image: linear-gradient(var(--color-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center;
+  /* background-attachment: fixed; */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-container {
+  flex-grow: 1;
+  padding-top: var(--nav-height);
+  width: 100%;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  z-index: 1000;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav-brand {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Recreating the TA logo vibe */
+.nav-brand .logo-t {
+  color: var(--color-accent);
+}
+.nav-brand .logo-a {
+  color: var(--color-primary);
+  margin-left: -2px; /* Overlap slightly */
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-link {
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--color-text-light);
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--color-accent);
+}
+
+.nav-link.active {
+  color: var(--color-accent);
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* Buttons */
+.btn {
+  padding: 14px 28px;
+  border-radius: 4px; /* Squarer buttons for engineering feel */
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #de573d;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(242, 107, 82, 0.2);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.btn-outline:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Home Page Sections */
+.hero-section {
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  position: relative;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: 1.1;
+  margin-bottom: 20px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.hero-title span {
+  color: var(--color-accent);
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--color-text-light);
+  margin-bottom: 40px;
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* Content Sections */
+.content-section {
+  padding: 100px 5%;
+  background: var(--color-bg-alt);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 60px;
+}
+
+.service-card {
+  padding: 40px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-accent);
+}
+
+.service-card h3 {
+  color: var(--color-accent);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.service-card p {
+  color: var(--color-text-light);
+  line-height: 1.6;
+}
+
+/* Image Container for Scroll effects */
+.image-showcase {
+  width: 100%;
+  height: 70vh;
+  overflow: hidden;
+  position: relative;
+  border-radius: 12px;
+  margin-top: 60px;
+  background-color: #111; /* Fallback */
+}
+
+/* The actual image inside */
+.parallax-image {
+  width: 100%;
+  height: 130%; /* Taller than container for parallax */
+  object-fit: cover;
+  position: absolute;
+  top: -15%;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  z-index: 10;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.overlay-text h2 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  .mobile-menu-btn {
+    display: block;
+  }
+  .image-showcase {
+    height: 50vh;
+  }
+}
