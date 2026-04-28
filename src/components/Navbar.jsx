@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isNavHovered, setIsNavHovered] = useState(false);
+  const [hoveredPath, setHoveredPath] = useState(null);
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'light';
   });
@@ -37,28 +38,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Apple style blur overlay */}
-      <AnimatePresence>
-        {(isNavHovered || isMobileMenuOpen) && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            style={{
-              position: 'fixed',
-              top: 'var(--nav-height)',
-              left: 0,
-              width: '100%',
-              height: 'calc(100vh - var(--nav-height))',
-              background: 'var(--overlay-bg)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              zIndex: 900
-            }}
-          />
-        )}
-      </AnimatePresence>
+
 
       <nav 
         className="navbar" 
@@ -84,19 +64,58 @@ const Navbar = () => {
         </NavLink>
 
         {/* Desktop Links & Theme Toggle */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+        <div 
+          style={{ display: 'flex', alignItems: 'center', gap: '32px' }}
+          onMouseLeave={() => setHoveredPath(null)}
+        >
           <ul 
             className="nav-links" 
             onMouseEnter={() => setIsNavHovered(true)}
           >
             {navLinks.map((link) => (
-              <li key={link.path}>
+              <li 
+                key={link.path}
+                onMouseEnter={() => setHoveredPath(link.path)}
+                style={{ position: 'relative' }}
+              >
                 <NavLink 
                   to={link.path} 
                   className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+                  style={{ 
+                    position: 'relative', 
+                    zIndex: 2, 
+                    padding: '8px 16px', 
+                    display: 'block',
+                    color: hoveredPath === link.path ? '#ffffff' : undefined,
+                    transition: 'color 0.2s ease'
+                  }}
                 >
                   {link.name}
                 </NavLink>
+                {hoveredPath === link.path && (
+                  <motion.div
+                    layoutId="nav-slime"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30,
+                      mass: 0.8
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: 'var(--color-accent)',
+                      borderRadius: '8px',
+                      zIndex: 1
+                    }}
+                  />
+                )}
               </li>
             ))}
           </ul>
@@ -104,18 +123,21 @@ const Navbar = () => {
           {/* Theme Toggle Button */}
           <button 
             onClick={toggleTheme}
+            onMouseEnter={() => setHoveredPath('theme')}
             style={{
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
-              color: 'var(--color-text)',
+              color: hoveredPath === 'theme' ? '#ffffff' : 'var(--color-text)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               padding: '8px',
               position: 'relative',
-              width: '40px',
-              height: '40px'
+              width: '44px',
+              height: '44px',
+              transition: 'color 0.2s ease',
+              zIndex: 2
             }}
             title={theme === 'light' ? 'Karanlık Temaya Geç' : 'Aydınlık Temaya Geç'}
           >
@@ -127,18 +149,43 @@ const Navbar = () => {
                 animate={{ y: 0, opacity: 1, rotate: 0 }}
                 exit={{ y: 20, opacity: 0, rotate: 90 }}
                 transition={{ duration: 0.3 }}
-                style={{ position: 'absolute' }}
+                style={{ position: 'absolute', display: 'flex' }}
               >
-                {theme === 'light' ? <Moon size={24} /> : <Sun size={24} color="var(--color-accent)" />}
+                {theme === 'light' ? <Moon size={24} color={hoveredPath === 'theme' ? "white" : undefined} /> : <Sun size={24} color={hoveredPath === 'theme' ? "white" : "var(--color-accent)"} />}
               </motion.div>
             </AnimatePresence>
+
+            {hoveredPath === 'theme' && (
+              <motion.div
+                layoutId="nav-slime"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 30,
+                  mass: 0.8
+                }}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: 'var(--color-accent)',
+                  borderRadius: '8px',
+                  zIndex: -1
+                }}
+              />
+            )}
           </button>
           
           {/* Mobile Menu Toggle Button */}
           <button 
             className="mobile-menu-btn" 
             onClick={toggleMenu}
-            style={{ position: 'relative', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            style={{ position: 'relative', width: '40px', height: '40px', alignItems: 'center', justifyContent: 'center' }}
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
@@ -162,6 +209,7 @@ const Navbar = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
+              onMouseLeave={() => setHoveredPath(null)}
               style={{
                 position: 'absolute',
                 top: 'var(--nav-height)',
@@ -173,19 +221,57 @@ const Navbar = () => {
                 padding: '20px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '20px',
+                gap: '8px',
                 zIndex: 999
               }}
             >
               {navLinks.map((link) => (
-                <NavLink
+                <div
                   key={link.path}
-                  to={link.path}
-                  onClick={closeMenu}
-                  style={{ color: 'var(--color-primary)', fontSize: '1.2rem', fontWeight: 500 }}
+                  onMouseEnter={() => setHoveredPath('mobile-' + link.path)}
+                  style={{ position: 'relative' }}
                 >
-                  {link.name}
-                </NavLink>
+                  <NavLink
+                    to={link.path}
+                    onClick={closeMenu}
+                    style={{ 
+                      position: 'relative',
+                      zIndex: 2,
+                      display: 'block',
+                      padding: '12px 16px',
+                      color: hoveredPath === ('mobile-' + link.path) ? '#ffffff' : 'var(--color-primary)', 
+                      fontSize: '1.2rem', 
+                      fontWeight: 500,
+                      transition: 'color 0.2s ease'
+                    }}
+                  >
+                    {link.name}
+                  </NavLink>
+                  {hoveredPath === ('mobile-' + link.path) && (
+                    <motion.div
+                      layoutId="mobile-nav-slime"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30,
+                        mass: 0.8
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'var(--color-accent)',
+                        borderRadius: '8px',
+                        zIndex: 1
+                      }}
+                    />
+                  )}
+                </div>
               ))}
             </motion.div>
           )}
