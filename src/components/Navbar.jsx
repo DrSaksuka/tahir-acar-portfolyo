@@ -44,7 +44,7 @@ const Navbar = () => {
         className="navbar" 
         onMouseLeave={() => setIsNavHovered(false)}
       >
-        <NavLink to="/" className="nav-brand" onClick={closeMenu}>
+        <NavLink to="/" className="nav-brand" onClick={closeMenu} style={{ whiteSpace: 'nowrap' }}>
           <motion.img 
             key={theme}
             initial={{ opacity: 0.5 }}
@@ -60,7 +60,7 @@ const Navbar = () => {
               filter: theme === 'dark' ? 'invert(1) hue-rotate(185deg) brightness(1.4)' : 'none'
             }} 
           />
-          <span style={{ fontSize: '1.3rem', color: 'var(--color-primary)', fontWeight: '700', letterSpacing: '1px'}}>TAHİR ACAR</span>
+          <span style={{ fontSize: 'clamp(1rem, 4vw, 1.3rem)', color: 'var(--color-primary)', fontWeight: '700', letterSpacing: '1px'}}>TAHİR ACAR</span>
         </NavLink>
 
         {/* Desktop Links & Toggles */}
@@ -71,7 +71,6 @@ const Navbar = () => {
           <ul 
             className="nav-links" 
             onMouseEnter={() => setIsNavHovered(true)}
-            style={{ display: 'flex', alignItems: 'center', gap: '8px', marginRight: '16px' }}
           >
             {navLinks.map((link) => (
               <li 
