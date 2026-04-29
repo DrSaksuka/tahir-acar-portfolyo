@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -10,6 +11,7 @@ const Navbar = () => {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'light';
   });
+  const { language, toggleLanguage, t } = useLanguage();
 
   // Apply theme to document on mount
   useEffect(() => {
@@ -30,16 +32,14 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { name: 'Ana Sayfa', path: '/' },
-    { name: 'Hakkımda', path: '/about' },
-    { name: 'Portfolyo', path: '/portfolio' },
-    { name: 'İletişim', path: '/contact' }
+    { name: t('navHome'), path: '/' },
+    { name: t('navAbout'), path: '/about' },
+    { name: t('navPortfolio'), path: '/portfolio' },
+    { name: t('navContact'), path: '/contact' }
   ];
 
   return (
     <>
-
-
       <nav 
         className="navbar" 
         onMouseLeave={() => setIsNavHovered(false)}
@@ -63,14 +63,15 @@ const Navbar = () => {
           <span style={{ fontSize: '1.3rem', color: 'var(--color-primary)', fontWeight: '700', letterSpacing: '1px'}}>TAHİR ACAR</span>
         </NavLink>
 
-        {/* Desktop Links & Theme Toggle */}
+        {/* Desktop Links & Toggles */}
         <div 
-          style={{ display: 'flex', alignItems: 'center', gap: '32px' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '16px' }}
           onMouseLeave={() => setHoveredPath(null)}
         >
           <ul 
             className="nav-links" 
             onMouseEnter={() => setIsNavHovered(true)}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', marginRight: '16px' }}
           >
             {navLinks.map((link) => (
               <li 
@@ -87,7 +88,8 @@ const Navbar = () => {
                     padding: '8px 16px', 
                     display: 'block',
                     color: hoveredPath === link.path ? '#ffffff' : undefined,
-                    transition: 'color 0.2s ease'
+                    transition: 'color 0.2s ease',
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   {link.name}
@@ -120,86 +122,125 @@ const Navbar = () => {
             ))}
           </ul>
           
-          {/* Theme Toggle Button */}
-          <button 
-            onClick={toggleTheme}
-            onMouseEnter={() => setHoveredPath('theme')}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              color: hoveredPath === 'theme' ? '#ffffff' : 'var(--color-text)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '8px',
-              position: 'relative',
-              width: '44px',
-              height: '44px',
-              transition: 'color 0.2s ease',
-              zIndex: 2
-            }}
-            title={theme === 'light' ? 'Karanlık Temaya Geç' : 'Aydınlık Temaya Geç'}
-          >
-            {/* AnimatePresence for smooth icon transition */}
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={theme}
-                initial={{ y: -20, opacity: 0, rotate: -90 }}
-                animate={{ y: 0, opacity: 1, rotate: 0 }}
-                exit={{ y: 20, opacity: 0, rotate: 90 }}
-                transition={{ duration: 0.3 }}
-                style={{ position: 'absolute', display: 'flex' }}
-              >
-                {theme === 'light' ? <Moon size={24} color={hoveredPath === 'theme' ? "white" : undefined} /> : <Sun size={24} color={hoveredPath === 'theme' ? "white" : "var(--color-accent)"} />}
-              </motion.div>
-            </AnimatePresence>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {/* Language Toggle Button */}
+            <button 
+              onClick={toggleLanguage}
+              onMouseEnter={() => setHoveredPath('language')}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                color: hoveredPath === 'language' ? '#ffffff' : 'var(--color-text)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '4px',
+                padding: '8px',
+                position: 'relative',
+                height: '44px',
+                transition: 'color 0.2s ease',
+                zIndex: 2,
+                fontWeight: 'bold',
+                fontSize: '14px'
+              }}
+              title={language === 'tr' ? t('switchLangEn') : t('switchLangTr')}
+            >
+              <Globe size={20} />
+              <span style={{ width: '24px', textAlign: 'center' }}>
+                {language === 'tr' ? 'EN' : 'TR'}
+              </span>
+              
+              {hoveredPath === 'language' && (
+                <motion.div
+                  layoutId="nav-slime"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.8 }}
+                  style={{
+                    position: 'absolute',
+                    top: 0, left: 0, right: 0, bottom: 0,
+                    backgroundColor: 'var(--color-accent)',
+                    borderRadius: '8px',
+                    zIndex: -1
+                  }}
+                />
+              )}
+            </button>
 
-            {hoveredPath === 'theme' && (
-              <motion.div
-                layoutId="nav-slime"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 30,
-                  mass: 0.8
-                }}
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  backgroundColor: 'var(--color-accent)',
-                  borderRadius: '8px',
-                  zIndex: -1
-                }}
-              />
-            )}
-          </button>
-          
-          {/* Mobile Menu Toggle Button */}
-          <button 
-            className="mobile-menu-btn" 
-            onClick={toggleMenu}
-            style={{ position: 'relative', width: '40px', height: '40px', alignItems: 'center', justifyContent: 'center' }}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={isMobileMenuOpen ? 'close' : 'open'}
-                initial={{ opacity: 0, rotate: -90, scale: 0.8 }}
-                animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                exit={{ opacity: 0, rotate: 90, scale: 0.8 }}
-                transition={{ duration: 0.2 }}
-                style={{ position: 'absolute' }}
-              >
-                {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-              </motion.div>
-            </AnimatePresence>
-          </button>
+            {/* Theme Toggle Button */}
+            <button 
+              onClick={toggleTheme}
+              onMouseEnter={() => setHoveredPath('theme')}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                color: hoveredPath === 'theme' ? '#ffffff' : 'var(--color-text)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '8px',
+                position: 'relative',
+                width: '44px',
+                height: '44px',
+                transition: 'color 0.2s ease',
+                zIndex: 2
+              }}
+              title={theme === 'light' ? t('themeDark') : t('themeLight')}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={theme}
+                  initial={{ y: -20, opacity: 0, rotate: -90 }}
+                  animate={{ y: 0, opacity: 1, rotate: 0 }}
+                  exit={{ y: 20, opacity: 0, rotate: 90 }}
+                  transition={{ duration: 0.3 }}
+                  style={{ position: 'absolute', display: 'flex' }}
+                >
+                  {theme === 'light' ? <Moon size={24} color={hoveredPath === 'theme' ? "white" : undefined} /> : <Sun size={24} color={hoveredPath === 'theme' ? "white" : "var(--color-accent)"} />}
+                </motion.div>
+              </AnimatePresence>
+
+              {hoveredPath === 'theme' && (
+                <motion.div
+                  layoutId="nav-slime"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.8 }}
+                  style={{
+                    position: 'absolute',
+                    top: 0, left: 0, right: 0, bottom: 0,
+                    backgroundColor: 'var(--color-accent)',
+                    borderRadius: '8px',
+                    zIndex: -1
+                  }}
+                />
+              )}
+            </button>
+            
+            {/* Mobile Menu Toggle Button */}
+            <button 
+              className="mobile-menu-btn" 
+              onClick={toggleMenu}
+              style={{ position: 'relative', width: '40px', height: '40px', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={isMobileMenuOpen ? 'close' : 'open'}
+                  initial={{ opacity: 0, rotate: -90, scale: 0.8 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={{ opacity: 0, rotate: 90, scale: 0.8 }}
+                  transition={{ duration: 0.2 }}
+                  style={{ position: 'absolute' }}
+                >
+                  {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+                </motion.div>
+              </AnimatePresence>
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu Dropdown */}
@@ -253,18 +294,10 @@ const Navbar = () => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 30,
-                        mass: 0.8
-                      }}
+                      transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.8 }}
                       style={{
                         position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
+                        top: 0, left: 0, right: 0, bottom: 0,
                         backgroundColor: 'var(--color-accent)',
                         borderRadius: '8px',
                         zIndex: 1

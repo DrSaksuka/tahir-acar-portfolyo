@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Ruler, LayoutTemplate, ShieldCheck, Cog } from 'lucide-react';
+import { Ruler, LayoutTemplate, ShieldCheck, Cog } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const ParallaxImage = ({ src, alt, title, subtitle }) => {
   const ref = useRef(null);
@@ -9,9 +10,7 @@ const ParallaxImage = ({ src, alt, title, subtitle }) => {
     offset: ["start end", "end start"]
   });
 
-  // Moves the image slower than the scroll speed for a parallax effect
   const y = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
-  // scale image slightly as passing by
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1]);
 
   return (
@@ -45,6 +44,8 @@ const ParallaxImage = ({ src, alt, title, subtitle }) => {
 };
 
 const Home = () => {
+  const { t } = useLanguage();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -67,8 +68,8 @@ const Home = () => {
         initial="hidden"
         animate="show"
       >
-        <motion.p variants={itemVariants} style={{ color: 'var(--color-accent)', fontWeight: 'bold', marginBottom: '1rem', letterSpacing: '2px' }}>
-          OTOMOTİV TEKNİK ÖĞRETMENİ
+        <motion.p variants={itemVariants} style={{ color: 'var(--color-accent)', fontWeight: 'bold', marginBottom: '1rem', letterSpacing: '2px', textTransform: 'uppercase' }}>
+          {t('homeHeroSubtitle1')}
         </motion.p>
         
         <motion.h1 className="hero-title" variants={itemVariants}>
@@ -76,10 +77,8 @@ const Home = () => {
         </motion.h1>
         
         <motion.p className="hero-subtitle" variants={itemVariants}>
-          Tasarım, Eğitim ve Danışmanlık Hizmetleri. Fikirlerinizi teknik çizimlerle gerçeğe dönüştürüyoruz.
+          {t('homeHeroSubtitle2')}
         </motion.p>
-        
-
       </motion.section>
 
       {/* Services Section */}
@@ -90,34 +89,36 @@ const Home = () => {
            viewport={{ once: true, amount: 0.2 }}
            variants={containerVariants}
         >
-          <motion.h2 variants={itemVariants} style={{ fontSize: '2.5rem', textAlign: 'center', marginBottom: '1rem', color: 'var(--color-primary)' }}>Uzmanlık Alanları</motion.h2>
+          <motion.h2 variants={itemVariants} style={{ fontSize: 'clamp(2rem, 5vw, 2.5rem)', textAlign: 'center', marginBottom: '1rem', color: 'var(--color-primary)' }}>
+            {t('homeServicesTitle')}
+          </motion.h2>
           <motion.p variants={itemVariants} style={{ textAlign: 'center', color: 'var(--color-text-light)', maxWidth: '600px', margin: '0 auto' }}>
-            Kartvizitte yer alan deneyim ve uzmanlıklar doğrultusunda sunulan profesyonel hizmetler.
+            {t('homeServicesDesc')}
           </motion.p>
 
           <div className="services-grid">
             <motion.div className="service-card" variants={itemVariants}>
               <Ruler color="var(--color-accent)" size={40} style={{ marginBottom: '20px' }} />
-              <h3>Makina Tasarımı & Eğitim</h3>
-              <p>Solidworks, Cobalt, Autocad Eğitimleri ve profesyonel Makina Tasarımı hizmetleri.</p>
+              <h3>{t('homeService1Title')}</h3>
+              <p>{t('homeService1Desc')}</p>
             </motion.div>
             
             <motion.div className="service-card" variants={itemVariants}>
               <LayoutTemplate color="var(--color-accent)" size={40} style={{ marginBottom: '20px' }} />
-              <h3>Kalıp Dizaynı</h3>
-              <p>Alüminyum Enjeksiyon, Alüminyum Plak Model, Kokil ve Plastik Enjeksiyon kalıp tasarımları.</p>
+              <h3>{t('homeService2Title')}</h3>
+              <p>{t('homeService2Desc')}</p>
             </motion.div>
 
             <motion.div className="service-card" variants={itemVariants}>
               <Cog color="var(--color-accent)" size={40} style={{ marginBottom: '20px' }} />
-              <h3>ISO 9000:2008 KYS</h3>
-              <p>Kalite Yönetim Sistemi danışmanlık ve eğitim hizmetleri ile süreçlerinizi standartlaştırın.</p>
+              <h3>{t('homeService3Title')}</h3>
+              <p>{t('homeService3Desc')}</p>
             </motion.div>
 
             <motion.div className="service-card" variants={itemVariants}>
               <ShieldCheck color="var(--color-accent)" size={40} style={{ marginBottom: '20px' }} />
-              <h3>İş Güvenliği Uzmanlığı</h3>
-              <p>Çalışma ortamınızın güvenliğini sağlamaya yönelik uzman danışmanlık.</p>
+              <h3>{t('homeService4Title')}</h3>
+              <p>{t('homeService4Desc')}</p>
             </motion.div>
           </div>
         </motion.div>
@@ -128,8 +129,8 @@ const Home = () => {
         <ParallaxImage 
           src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=2070&auto=format&fit=crop" 
           alt="Engineering Draft"
-          title="Hassas Çizimler"
-          subtitle="Milimetrik hesaplamalarla mükemmele ulaşın."
+          title={t('homeParallax1Title')}
+          subtitle={t('homeParallax1Desc')}
         />
         
         <div style={{ height: '50px' }}></div>
@@ -137,8 +138,8 @@ const Home = () => {
         <ParallaxImage 
           src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=2070&auto=format&fit=crop" 
           alt="Manufacturing"
-          title="Endüstriyel Üretim"
-          subtitle="Fikir aşamasından kalıp imalatına."
+          title={t('homeParallax2Title')}
+          subtitle={t('homeParallax2Desc')}
         />
       </section>
     </div>

@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { PencilRuler } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const Portfolio = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="page-container" style={{ 
       display: 'flex', 
@@ -52,7 +55,7 @@ const Portfolio = () => {
           margin: 0,
           letterSpacing: '-1px'
         }}>
-          Yakında...
+          {t('portfolioComingSoonTitle')}
         </h1>
         
         <p style={{ 
@@ -61,7 +64,7 @@ const Portfolio = () => {
           lineHeight: '1.6',
           margin: 0
         }}>
-          Tahir Acar'ın özenle hazırladığı profesyonel tasarım ve teknik çizim projeleri çok yakında bu sayfada yer alacak.
+          {t('portfolioComingSoonDesc')}
         </p>
 
         <motion.div 

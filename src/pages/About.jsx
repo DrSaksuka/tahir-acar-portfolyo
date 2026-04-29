@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { User, Briefcase, GraduationCap, Award } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const About = () => {
+  const { t } = useLanguage();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -52,11 +55,11 @@ const About = () => {
             
             <div style={{ flex: '1', minWidth: '300px' }}>
               <motion.h2 variants={itemVariants} className="section-title left-aligned" style={{ left: '0', transform: 'none', textAlign: 'left', marginBottom: '1.5rem', display: 'inline-block' }}>
-                Hakkımda
+                {t('aboutTitle')}
               </motion.h2>
               <motion.div variants={itemVariants} className="about-intro" style={{ textAlign: 'left', margin: '0', maxWidth: '100%' }}>
                 <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: 'var(--color-text-light)' }}>
-                  1976 yılında Adana’da dünyaya geldim. Çocukluk yıllarımdan itibaren teknik konulara ve makinelerin işleyişine duyduğum merak, eğitim hayatımın ve kariyerimin temel taşlarını oluşturdu. İlk profesyonel adımlarımı Çorum’da, ardından Konya’da attığım eğitim süreçleriyle pekiştirerek makine ve otomotiv dünyasına adım attım.
+                  {t('aboutIntroText')}
                 </p>
               </motion.div>
             </div>
@@ -66,32 +69,32 @@ const About = () => {
             <motion.div variants={itemVariants} className="resume-section">
               <div className="resume-section-header">
                 <Briefcase size={24} color="var(--color-accent)" />
-                <h3>İş Tecrübesi</h3>
+                <h3>{t('aboutExpTitle')}</h3>
               </div>
               <div className="timeline">
                 <div className="timeline-item">
                   <div className="timeline-dot"></div>
                   <div className="timeline-date">2013 - 2015</div>
                   <div className="timeline-content">
-                    <h4>Makine Teknik Ressamı</h4>
-                    <p className="timeline-company">Atara Otomasyon, Konya</p>
+                    <h4>{t('aboutExp1Title')}</h4>
+                    <p className="timeline-company">{t('aboutExp1Comp')}</p>
                   </div>
                 </div>
                 <div className="timeline-item">
                   <div className="timeline-dot"></div>
                   <div className="timeline-date">2009 - 2013</div>
                   <div className="timeline-content">
-                    <h4>Makine Teknik Ressamı ve Teknik Sorumlu</h4>
-                    <p className="timeline-company">Özenir Değirmen, Konya</p>
+                    <h4>{t('aboutExp2Title')}</h4>
+                    <p className="timeline-company">{t('aboutExp2Comp')}</p>
                   </div>
                 </div>
                 <div className="timeline-item">
                   <div className="timeline-dot"></div>
                   <div className="timeline-date">2006 - 2009</div>
                   <div className="timeline-content">
-                    <h4>Makine Teknik Ressamı</h4>
-                    <p className="timeline-company">KJS Konya Jant A.Ş. Konya</p>
-                    <p className="timeline-desc">Teknik Resim Çizimi, Kalıp Tasarımı ve işlenmesi</p>
+                    <h4>{t('aboutExp3Title')}</h4>
+                    <p className="timeline-company">{t('aboutExp3Comp')}</p>
+                    <p className="timeline-desc">{t('aboutExp3Desc')}</p>
                   </div>
                 </div>
               </div>
@@ -100,23 +103,23 @@ const About = () => {
             <motion.div variants={itemVariants} className="resume-section">
               <div className="resume-section-header">
                 <GraduationCap size={24} color="var(--color-accent)" />
-                <h3>Eğitim Bilgileri</h3>
+                <h3>{t('aboutEduTitle')}</h3>
               </div>
               <div className="timeline">
                 <div className="timeline-item">
                   <div className="timeline-dot"></div>
                   <div className="timeline-date">1998 - 2002</div>
                   <div className="timeline-content">
-                    <h4>T.E.F. Otomotiv Öğretmenliği</h4>
-                    <p className="timeline-company">Selçuk Üniversitesi, Konya</p>
+                    <h4>{t('aboutEdu1Title')}</h4>
+                    <p className="timeline-company">{t('aboutEdu1Comp')}</p>
                   </div>
                 </div>
                 <div className="timeline-item">
                   <div className="timeline-dot"></div>
                   <div className="timeline-date">1995 - 1997</div>
                   <div className="timeline-content">
-                    <h4>Çorum MYO Otomotiv Bölümü</h4>
-                    <p className="timeline-company">Gazi Üniversitesi</p>
+                    <h4>{t('aboutEdu2Title')}</h4>
+                    <p className="timeline-company">{t('aboutEdu2Comp')}</p>
                   </div>
                 </div>
               </div>
@@ -125,12 +128,12 @@ const About = () => {
             <motion.div variants={itemVariants} className="resume-section">
               <div className="resume-section-header">
                 <Award size={24} color="var(--color-accent)" />
-                <h3>Seminer ve Kurslar</h3>
+                <h3>{t('aboutSemTitle')}</h3>
               </div>
               <ul className="seminar-list">
-                <li>İso 9001:2008 Kalite Yönetim Sistemi <span>(2013, Konya)</span></li>
-                <li>İş Güvenliği Uzmanlığı C Sınıfı Belgesi <span>(2013, Konya)</span></li>
-                <li>İso 9001:2000 Kalite Yönetim Sistemi <span>(2002, Konya)</span></li>
+                <li>{t('aboutSem1')} <span>{t('aboutSem1Loc')}</span></li>
+                <li>{t('aboutSem2')} <span>{t('aboutSem2Loc')}</span></li>
+                <li>{t('aboutSem3')} <span>{t('aboutSem3Loc')}</span></li>
               </ul>
             </motion.div>
           </div>
