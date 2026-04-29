@@ -152,11 +152,10 @@ const Navbar = () => {
               
               {hoveredPath === 'language' && (
                 <motion.div
-                  layoutId="nav-slime"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.8 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.2 }}
                   style={{
                     position: 'absolute',
                     top: 0, left: 0, right: 0, bottom: 0,
@@ -204,11 +203,10 @@ const Navbar = () => {
 
               {hoveredPath === 'theme' && (
                 <motion.div
-                  layoutId="nav-slime"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.8 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.2 }}
                   style={{
                     position: 'absolute',
                     top: 0, left: 0, right: 0, bottom: 0,
