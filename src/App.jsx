@@ -6,10 +6,8 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 
 import About from './pages/About';
+import Portfolio from './pages/Portfolio';
 import Contact from './pages/Contact';
-
-// Skeleton pages for routing
-const Portfolio = () => <div className="page-container"><h2 className="section-title">Portfolyo</h2></div>;
 
 // This component is needed to use useLocation hook inside Router
 function AnimatedRoutes() {
