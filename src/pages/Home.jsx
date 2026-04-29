@@ -79,14 +79,7 @@ const Home = () => {
           Tasarım, Eğitim ve Danışmanlık Hizmetleri. Fikirlerinizi teknik çizimlerle gerçeğe dönüştürüyoruz.
         </motion.p>
         
-        <motion.div variants={itemVariants} style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <a href="/contact" className="btn btn-primary">
-            İletişime Geç <ArrowRight size={20} />
-          </a>
-          <a href="#services" className="btn btn-outline">
-            Hizmetleri İncele
-          </a>
-        </motion.div>
+
       </motion.section>
 
       {/* Services Section */}
